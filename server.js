@@ -1,14 +1,14 @@
-const fs = require('fs')
-const path = require('path')
-const express = require('express')
-const favicon = require('serve-favicon')
-const resolve = file => path.resolve(__dirname, file)
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const favicon = require('serve-favicon');
+const resolve = file => path.resolve(__dirname, file);
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production';
 
-const app = express()
+const app = express();
 
-let renderer
+let renderer;
 if (isProd) {
   // In production: create server renderer using server bundle and index HTML
   // template from real fs.
@@ -16,7 +16,7 @@ if (isProd) {
   const bundle = require('./dist/vue-ssr-bundle.json')
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
-  const template = fs.readFileSync(resolve('./dist/index.html'), 'utf-8')
+  const template = fs.readFileSync(resolve('./dist/index.html'), 'utf-8');
   renderer = createRenderer(bundle, template)
 } else {
   // In development: setup the dev server with watch and hot-reload,
@@ -43,25 +43,25 @@ const serve = (path, cache) => express.static(resolve(path), {
 
 
 app.use('/dist', serve('./dist', true))
-app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
+app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')));
+app.use('/service-worker.js', serve('./dist/service-worker.js'));
 
 app.get('*', (req, res) => {
   if (!renderer) {
     return res.end('waiting for compilation... refresh in a moment.')
   }
 
-  const s = Date.now()
+  const s = Date.now();
 
-  res.setHeader('Content-Type', 'text/html')
+  res.setHeader('Content-Type', 'text/html');
 
   const errorHandler = err => {
     if (err && err.code === 404) {
       res.status(404).end('404 | Page Not Found')
     } else {
       // Render Error Page or Redirect
-      res.status(500).end('500 | Internal Server Error')
-      console.error(`error during render : ${req.url}`)
+      res.status(500).end('500 | Internal Server Error');
+      console.error(`error during render : ${req.url}`);
       console.error(err)
     }
   }

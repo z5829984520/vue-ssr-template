@@ -1,10 +1,8 @@
-import request from './request'
+import Request from './request'
 import api from './api'
 
-const { topics } = api
+const request = new Request();
 
-export function getTopicsData ({ params, cb }) {
-  return request.apiGet(topics, params || {}).then(res => {
-    cb(res)
-  })
+export function getTopicsData (params={}) {
+  return request.apiGet(api.topics, params)
 }
