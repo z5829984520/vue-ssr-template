@@ -39,10 +39,10 @@ function createRenderer (bundle, template) {
 
 const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
-})
+});
 
 
-app.use('/dist', serve('./dist', true))
+app.use('/dist', serve('./dist', true));
 app.use(favicon(path.resolve(__dirname, 'src/assets/logo.png')));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
 
@@ -64,15 +64,15 @@ app.get('*', (req, res) => {
       console.error(`error during render : ${req.url}`);
       console.error(err)
     }
-  }
+  };
 
   renderer.renderToStream({ url: req.url })
     .on('error', errorHandler)
-    .on('end', () => console.log(`whole request: ${Date.now() - s}ms`))
+    .on('end', () => console.log(`whole request: ${Date.now() - s}ms,url:${req.url}`))
     .pipe(res)
-})
+});
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`)
-})
+});

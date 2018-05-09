@@ -2,17 +2,21 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as actions from './actions'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
-  topics: []
-}
+  topics: [],
+  b: []
+};
 
 const mutations = {
-  TOPICS_LIST: (state, topics) => {
-    state.topics = topics
+  TOPICS_LIST: (state, data) => {
+    state.topics = data
+  },
+  B: (state, data) => {
+    state.b = data
   }
-}
+};
 
 export default new Vuex.Store({
   state,
